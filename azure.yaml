@@ -1,0 +1,11 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+name: tdd-multi-identity-acr-auth
+metadata:
+  template: tdd-multi-identity-acr-auth@1.0.0
+# Infrastructure-only Trainer Demo Deploy scenario.
+# Reproduces Azure DevOps Docker-task MSI auth failure when 2+ user-assigned
+# managed identities are attached to the build agent (Case 2605130050002742).
+infra:
+  provider: bicep
+  path: infra
+  module: main

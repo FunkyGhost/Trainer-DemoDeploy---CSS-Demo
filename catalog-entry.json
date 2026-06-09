@@ -1,0 +1,12 @@
+{
+  "title": "Multi-identity ACR auth failure on Azure Pipelines",
+  "description": "Reproduces a real support case: a Docker task using a Managed Service Identity ACR service connection fails on every run when two or more user-assigned managed identities are attached to the build agent. Deploys a self-hosted agent, two identities, and an ACR so engineers can reproduce the failure and demonstrate the fix.",
+  "image": "images/tdd-multi-identity-acr-auth.png",
+  "author": "Aman Srivastava",
+  "authorLink": "https://github.com/<yourusername>",
+  "repo": "https://github.com/<yourusername>/tdd-multi-identity-acr-auth",
+  "tags": ["Azure DevOps", "Pipelines", "ACR", "Managed Identity", "Troubleshooting"],
+  "demoGuide": "https://github.com/<yourusername>/tdd-multi-identity-acr-auth/blob/main/demoguide/demoguide.md",
+  "deployTime": "10 minutes",
+  "cost": "$2-4/day"
+}

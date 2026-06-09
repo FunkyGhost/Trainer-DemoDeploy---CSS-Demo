@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "environmentName": {
+      "value": "${AZURE_ENV_NAME}"
+    },
+    "location": {
+      "value": "${AZURE_LOCATION}"
+    },
+    "adoOrgUrl": {
+      "value": "${ADO_ORG_URL}"
+    },
+    "adoAgentPool": {
+      "value": "${ADO_AGENT_POOL=demodeploy-repro-pool}"
+    },
+    "adoPat": {
+      "value": "${ADO_PAT}"
+    },
+    "adminSshPublicKey": {
+      "value": "${ADMIN_SSH_PUBLIC_KEY}"
+    },
+    "adminUsername": {
+      "value": "${ADMIN_USERNAME=azureuser}"
+    },
+    "vmSize": {
+      "value": "${VM_SIZE=Standard_D2s_v5}"
+    },
+    "allowedSshSourceCidr": {
+      "value": "${ALLOWED_SSH_CIDR=*}"
+    }
+  }
+}

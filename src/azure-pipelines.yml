@@ -1,0 +1,46 @@
+# =====================================================================
+# Repro pipeline — case 2605130050002742
+# Runs on the self-hosted agent provisioned by `azd up`.
+#
+# 'acr-msi-sc' must be a Docker Registry service connection of type
+# "Azure Container Registry" using Managed Service Identity auth
+# (Project Settings > Service connections > New > Docker Registry > ACR
+#  > Managed Identity). Point it at the ACR_NAME from the azd outputs.
+#
+# With TWO user-assigned identities on the agent, the Docker task's IMDS
+# token request cannot resolve which identity to use and the job FAILS
+# ON EVERY RUN with the customer's exact error (see demoguide).
+# =====================================================================
+
+trigger: none
+
+pool: demodeploy-repro-pool        # the self-hosted pool from the azd deploy
+
+variables:
+  dockerRegistryServiceConnection: 'acr-msi-sc'
+  imageRepository: 'demodeploy/repro'
+  tag: '$(Build.BuildId)'
+
+steps:
+  - task: Docker@2
+    displayName: 'Build and push to ACR (fails: MSI ambiguity)'
+    inputs:
+      command: 'buildAndPush'
+      repository: '$(imageRepository)'
+      dockerfile: '$(Build.SourcesDirectory)/src/Dockerfile'
+      containerRegistry: '$(dockerRegistryServiceConnection)'
+      tags: |
+        $(tag)
+
+# ---------------------------------------------------------------------
+# FIX / "good path" for the demo payoff. Comment out the Docker@2 task
+# above and uncomment below. This pins ONE identity by client-id, which
+# resolves the ambiguity even with both identities attached.
+# Replace <IDENTITY_A_CLIENT_ID> and <ACR_NAME> with the azd outputs.
+# ---------------------------------------------------------------------
+#  - script: |
+#      az login --identity --username <IDENTITY_A_CLIENT_ID>
+#      az acr login --name <ACR_NAME>
+#      docker build -t <ACR_NAME>.azurecr.io/$(imageRepository):$(tag) src
+#      docker push  <ACR_NAME>.azurecr.io/$(imageRepository):$(tag)
+#    displayName: 'Build and push to ACR (works: identity pinned by client-id)'
